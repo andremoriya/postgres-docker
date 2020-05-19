@@ -1,24 +1,28 @@
 version: '3'
 services:
-  postgres-compose:
-    image: postgres:9.6
+  postgresql:
+    image: postgres
     environment:
-      POSTGRES_PASSWORD: "PASSWORD"
+      POSTGRES_PASSWORD: "adminadmin"
     ports:
       - "15432:5432"
     volumes:
       - /home/andremoriya/workspace/docker/postgresql:/var/lib/postgresql/data
+    networks:
+      - inet
       
-  pgadmin-compose:
+  pgadmin4:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: "andremoriya@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "PASSWORD"
+      PGADMIN_DEFAULT_PASSWORD: "adminadmin"
     ports:
-      - "15432:80"
+      - "16543:80"
     depends_on:
-      - postgres-compose
+      - postgresql
+    networks:
+      - inet
 
 networks: 
-  postgres-compose-network:
-    driver: host
+  inet:
+    driver: bridge
